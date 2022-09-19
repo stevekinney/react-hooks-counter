@@ -1,13 +1,38 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 
 import SetToValue from './components/set-to-value';
 import IncrementBy from './components/increment-by';
 
-const decrement = (n) => n - 1;
-const increment = (n) => n + 1;
+const defaultState = {
+  count: 0,
+  incrementAmount: 1,
+};
+
+const reducer = (state = defaultState, action) => {
+  if (action.type === 'INCREMENT') {
+    return { ...state, count: state.count + state.incrementAmount };
+  }
+
+  if (action.type === 'DECREMENT') {
+    return { ...state, count: state.count - state.incrementAmount };
+  }
+
+  if (action.type === 'RESET') {
+    return defaultState;
+  }
+
+  if (action.type === 'SET_INCREMENT_AMOUNT') {
+    return { ...state, incrementAmount: Number(action.payload) };
+  }
+
+  return state;
+};
 
 export const Application = () => {
-  const [count, setCount] = useState(0);
+  const [{ count, incrementAmount }, dispatch] = useReducer(
+    reducer,
+    defaultState,
+  );
 
   return (
     <main className="m-auto mx-8 my-8 border-8 border-pink-300 p-4 flex flex-col gap-4">
@@ -16,18 +41,24 @@ export const Application = () => {
         <p className="text-6xl text-center">{count}</p>
       </section>
       <section className="flex flex-col md:flex-row justify-center gap-2">
-        <button className="w-full" onClick={() => setCount(decrement)}>
+        <button
+          className="w-full"
+          onClick={() => dispatch({ type: 'DECREMENT' })}
+        >
           Decrement
         </button>
-        <button className="w-full" onClick={() => setCount(0)}>
+        <button className="w-full" onClick={() => dispatch({ type: 'RESET' })}>
           Reset
         </button>
-        <button className="w-full" onClick={() => setCount(increment)}>
+        <button
+          className="w-full"
+          onClick={() => dispatch({ type: 'INCREMENT' })}
+        >
           Increment
         </button>
       </section>
-      <IncrementBy amount={1} />
-      <SetToValue count={count} />
+      <IncrementBy amount={incrementAmount} dispatch={dispatch} />
+      <SetToValue />
     </main>
   );
 };
