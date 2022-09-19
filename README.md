@@ -1,3 +1,3 @@
-# Boilerplate React Application
+# Simple Counter
 
-This is basically just a React application created with `create-react-app`, but with Tailwind included and Steve's personal preferences.
+We're going to use this repository to get our sea legs when it comes to using hooks in React.
