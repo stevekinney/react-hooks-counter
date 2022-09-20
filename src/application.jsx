@@ -1,8 +1,13 @@
 import SetToValue from './components/set-to-value';
 import IncrementBy from './components/increment-by';
+import { useState } from 'react';
+
+const increment = (n) => n + 1;
+const decrement = (n) => n - 1;
+const reset = () => 0;
 
 export const Application = () => {
-  const count = 0;
+  const [count, setCount] = useState(0);
 
   return (
     <main className="m-auto mx-8 my-8 border-8 border-pink-300 p-4 flex flex-col gap-4">
@@ -11,9 +16,15 @@ export const Application = () => {
         <p className="text-6xl text-center">{count}</p>
       </section>
       <section className="flex flex-col md:flex-row justify-center gap-2">
-        <button className="w-full">Decrement</button>
-        <button className="w-full">Reset</button>
-        <button className="w-full">Increment</button>
+        <button className="w-full" onClick={() => setCount(decrement)}>
+          Decrement
+        </button>
+        <button className="w-full" onClick={() => setCount(reset)}>
+          Reset
+        </button>
+        <button className="w-full" onClick={() => setCount(increment)}>
+          Increment
+        </button>
       </section>
       <IncrementBy amount={1} />
       <SetToValue count={count} />
