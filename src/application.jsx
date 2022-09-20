@@ -18,7 +18,7 @@ const reducer = (state = defaultState, action) => {
   }
 
   if (action.type === 'RESET') {
-    return { ...state, count: 0 };
+    return { ...state, count: 0, incrementAmount: 1 };
   }
 
   if (action.type === 'SET_INCREMENT_AMOUNT') {
