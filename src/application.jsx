@@ -18,11 +18,15 @@ const reducer = (state = defaultState, action) => {
   }
 
   if (action.type === 'RESET') {
-    return defaultState;
+    return { ...state, count: 0 };
   }
 
   if (action.type === 'SET_INCREMENT_AMOUNT') {
     return { ...state, incrementAmount: Number(action.payload) };
+  }
+
+  if (action.type === 'SET_COUNT') {
+    return { ...state, count: Number(action.payload) };
   }
 
   return state;
@@ -58,7 +62,7 @@ export const Application = () => {
         </button>
       </section>
       <IncrementBy amount={incrementAmount} dispatch={dispatch} />
-      <SetToValue />
+      <SetToValue dispatch={dispatch} />
     </main>
   );
 };

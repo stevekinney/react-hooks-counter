@@ -194,7 +194,7 @@ const reducer = (state = defaultState, action) => {
   }
 
   if (action === 'RESET') {
-    return defaultState;
+    return { ...state, count: 0 };
   }
 
   return state;
@@ -251,7 +251,7 @@ const reducer = (state = defaultState, action) => {
   }
 
   if (action.type === 'RESET') {
-    return defaultState;
+    return { ...state, count: 0 };
   }
 
   return state;
@@ -314,3 +314,73 @@ const IncrementBy = ({ amount, dispatch }) => {
 ```
 
 And it should work as expected. Albeit, it could use some refactoring.
+
+## Exercise: Reseting the increment amount
+
+Okay, let's imagine our product manager walks in and asks us to _also_ reset the `incrementAmount` back to 1 when the user clicks the "Reset" button. Nevermind the UX implications, we're just going to blindly do what they say and everything is going to be okay.
+
+## Exercise Solution: Reseting the increment amount
+
+You basically have two options here.
+
+You could reset both:
+
+```js
+if (action.type === 'RESET') {
+  return { ...state, count: 0, incrementBy: 1 };
+}
+```
+
+Or you could just use that handy `defaultState` object we had:
+
+```js
+if (action.type === 'RESET') {
+  return defaultState;
+}
+```
+
+## Exercise: Implement setting the count manually
+
+We have that other component, `SetToValue`. It's a little trickier because it's holding it's own state of what that new count should be and then updating the count once the form is submitted, but I suspect you're up to the challenge.
+
+## Exercise Solution: Implement the count manually
+
+Your solution might look something like this:
+
+```jsx
+import { useState } from 'react';
+
+const SetToValue = ({ dispatch }) => {
+  const [newCount, setNewCount] = useState(0);
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch({
+          type: 'SET_COUNT',
+          payload: newCount,
+        });
+      }}
+      className="flex flex-col gap-2"
+    >
+      <div className="flex gap-2 items-center justify-center">
+        <label htmlFor="set-count" className="whitespace-nowrap">
+          Set To
+        </label>
+        <input
+          id="set-count"
+          className="w-full"
+          type="number"
+          placeholder="Value"
+          value={newCount}
+          onChange={(e) => setNewCount(e.target.value)}
+        />
+      </div>
+      <button className="w-full">Submit</button>
+    </form>
+  );
+};
+
+export default SetToValue;
+```

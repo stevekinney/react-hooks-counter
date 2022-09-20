@@ -1,6 +1,19 @@
-const SetToValue = ({ count }) => {
+import { useState } from 'react';
+
+const SetToValue = ({ dispatch }) => {
+  const [newCount, setNewCount] = useState(0);
+
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-2">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch({
+          type: 'SET_COUNT',
+          payload: newCount,
+        });
+      }}
+      className="flex flex-col gap-2"
+    >
       <div className="flex gap-2 items-center justify-center">
         <label htmlFor="set-count" className="whitespace-nowrap">
           Set To
@@ -10,7 +23,8 @@ const SetToValue = ({ count }) => {
           className="w-full"
           type="number"
           placeholder="Value"
-          defaultValue={count}
+          value={newCount}
+          onChange={(e) => setNewCount(e.target.value)}
         />
       </div>
       <button className="w-full">Submit</button>
