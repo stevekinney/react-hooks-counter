@@ -1,4 +1,4 @@
-const IncrementBy = ({ amount }) => {
+const IncrementBy = ({ amount, onChange }) => {
   return (
     <section className="flex gap-2 items-center justify-center">
       <label className="whitespace-nowrap" htmlFor="increment-by">
@@ -10,7 +10,7 @@ const IncrementBy = ({ amount }) => {
         type="number"
         placeholder="Increment by…"
         value={amount}
-        onChange={() => {}}
+        onChange={onChange}
       />
     </section>
   );
